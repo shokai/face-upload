@@ -1,0 +1,3 @@
+ssh : "user_name@example.com"
+dir : "/home/user_name/public_html/file/"
+url : "http://example.com/~user_name/file/"
