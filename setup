@@ -5,7 +5,7 @@ require 'yaml'
 conf_file = ARGV.empty? ? "#{File.dirname(__FILE__)}/config.yml" : ARGV.shift
 raise Error 'config.yml not found' unless File.exists? conf_file
 
-app = "face-up.app"
+app = "face-upload.app"
 app_res_dir = "./#{app}/Contents/Resources"
 
 puts "generate your app"
@@ -19,3 +19,4 @@ open("#{app_res_dir}/config.yml", 'w+') do |f|
 end
 
 puts "success!!"
+puts " => #{app}"

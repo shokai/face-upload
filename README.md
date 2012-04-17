@@ -1,5 +1,5 @@
-Face-Up
-=======
+Face-Upload
+===========
 Make Upload app with Face icon
 
 
@@ -12,4 +12,4 @@ edit config.yml, then
 
     % ./setup
 
-=> generage "face-up.app"
+=> generage "face-upload.app"
