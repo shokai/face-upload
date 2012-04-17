@@ -2,6 +2,8 @@ Face-Upload
 ===========
 Make Upload app with Face icon
 
+* MacOSX
+* Ruby
 
 Make your app
 -------------
