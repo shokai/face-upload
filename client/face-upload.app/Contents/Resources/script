@@ -2,24 +2,25 @@
 require 'yaml'
 require 'digest/md5'
 
-conf = YAML::load open(File.dirname(__FILE__)+'/config.yml').read
-ssh = conf['ssh']
-dir = conf['dir']
-url = conf['url']
+@@conf = YAML::load open(File.dirname(__FILE__)+'/config.yml').read
 
-ARGV.each do |fname|
-  next unless File.exists? fname
+def upload(fname)
+  return unless File.exists? fname
 
   ext = fname.split(/\//).last =~ /^(.*)(\.\w+)$/ ? $2 : ''
   hash = Digest::MD5.hexdigest open(fname).read
 
-  puts cmd = "scp '#{fname}' #{ssh}:#{dir}#{hash}#{ext}"
+  puts cmd = "scp '#{fname}' #{@@conf['ssh']}:#{@@conf['dir']}#{hash}#{ext}"
   system cmd
-  puts cmd = "ssh #{ssh} chmod 644 #{dir}#{hash}#{ext}"
+  puts cmd = "ssh #{@@conf['ssh']} chmod 644 #{@@conf['dir']}#{hash}#{ext}"
   system cmd
 
-  furl = "#{url}#{hash}#{ext}"
+  furl = "#{@@conf['url']}#{hash}#{ext}"
   puts " => #{furl}"
   system "echo '#{furl}' | pbcopy"
   system "open '#{furl}'"
+end
+
+ARGV.each do |fname|
+  upload fname
 end
