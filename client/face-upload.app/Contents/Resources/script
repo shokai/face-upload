@@ -21,6 +21,24 @@ def upload(fname)
   system "open '#{furl}'"
 end
 
-ARGV.each do |fname|
-  upload fname
+def capture
+  fname = "/tmp/face-upload-#{Time.now.to_i}_#{Time.now.usec}.png"
+  puts cmd = "screencapture -i #{fname}"
+  system cmd
+  return nil unless File.exists? fname
+  puts cmd = "sips -d profile --deleteColorManagementProperties '#{fname}'"
+  system cmd
+  return fname
+end
+
+if ARGV.empty?
+  fname = capture
+  if fname
+    upload fname
+    File.delete fname
+  end
+else
+  ARGV.each do |fname|
+    upload fname
+  end
 end
