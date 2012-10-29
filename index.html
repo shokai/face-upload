@@ -10,14 +10,14 @@
     <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
 
     <script type="text/javascript" src="javascripts/modernizr.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/jquery.js"></script>
     <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function () {
         $('#main_content').headsmart()
       })
     </script>
-    <title>Face-upload by shokai</title>
+    <title>Face-upload App</title>
   </head>
 
   <body>
@@ -27,7 +27,7 @@
       <header>
         <span class="ribbon-outer">
           <span class="ribbon-inner">
-            <h1>Face-upload</h1>
+            <h1>Face-Upload App</h1>
             <h2>Upload File with Face Icon</h2>
           </span>
           <span class="left-tail"></span>
@@ -46,21 +46,35 @@
 
 
       <section id="main_content">
-        <h1>Face-Upload</h1>
+<ol>
+<li>make your "face-upload.app"</li>
+<li>Drag&amp;Drop files</li>
+<li>upload</li>
+<li>automatically open WebBrowser and copy URL</li>
+</ol>
+<p><img src="./images/face-upload.gif" width="500" height="375" /></p>
 
-<p>Make Upload app with Face icon</p>
 
+<h2>Requirements</h2>
 <ul>
-<li>MacOSX</li>
-<li>Ruby</li>
-</ul><p><img src="https://github.com/shokai/face-upload/raw/master/screenshot.gif"></p>
+<li>Mac OSX</li>
+<li>File Server (SSH enabled)</li>
+</ul>
 
-<h2>Make your app</h2>
 
-<pre><code>% cp sample.config.yml config.yml
-</code></pre>
+<h2>Make Your Face-upload App</h2>
+<pre><code>% git clone git://github.com/shokai/face-upload.git
+% cd face-upload
+% cp sample.config.yml config.yml</code></pre>
 
-<p>edit config.yml, then</p>
+<p>edit config.yml</p>
+
+<div class="highlight"><pre>ssh : &quot;shlog@shokai.org&quot;
+dir : &quot;www/shokai.org/archive/file/&quot;
+url : &quot;http://shokai.org/archive/file/&quot;
+</pre></div>
+
+<p>generate app</p>
 
 <pre><code>% ./setup
 </code></pre>
