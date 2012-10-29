@@ -11,8 +11,8 @@ Requirements
 ------------
 
 * MacOSX
-* Ruby
-
+* Ruby (OSX built-in)
+* File Server (SSH enabled)
 
 
 Make your app
