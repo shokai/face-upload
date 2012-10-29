@@ -2,10 +2,17 @@ Face-Upload
 ===========
 Make Upload app with Face icon
 
+* http://shokai.github.com/face-upload/
+
+<img src="http://shokai.github.com/face-upload/images/face-upload.gif" />
+
+
+Requirements
+------------
+
 * MacOSX
 * Ruby
 
-<img src="https://github.com/shokai/face-upload/raw/master/screenshot.gif" />
 
 
 Make your app
