@@ -22,6 +22,6 @@ Make your app
 
 edit config.yml, then
 
-    % ./setup
+    % ./buildapp
 
-=> generage "face-upload.app"
+=> build your "face-upload.app"
