@@ -2,7 +2,13 @@
 require 'yaml'
 require 'digest/md5'
 
-@@conf = YAML::load open(File.dirname(__FILE__)+'/config.yml').read
+class Conf
+  CONFIG = YAML::load open(File.expand_path 'config.yml', File.dirname(__FILE__)).read
+
+  def self.method_missing(name, *args)
+    CONFIG[name.to_s]
+  end
+end
 
 def system_run(cmd)
   puts cmd
@@ -15,11 +21,11 @@ def upload(fname)
   ext = fname.split(/\//).last =~ /^(.*)(\.\w+)$/ ? $2 : ''
   hash = Digest::MD5.hexdigest open(fname).read
 
-  system_run "ssh #{@@conf['ssh']} mkdir -p  #{@@conf['dir']}"
-  system_run "scp '#{fname}' #{@@conf['ssh']}:#{@@conf['dir']}#{hash}#{ext}"
-  system_run "ssh #{@@conf['ssh']} chmod 644 #{@@conf['dir']}#{hash}#{ext}"
+  system_run "ssh #{Conf.ssh} mkdir -p  #{Conf.dir}"
+  system_run "scp '#{fname}' #{Conf.ssh}:#{Conf.dir}#{hash}#{ext}"
+  system_run "ssh #{Conf.ssh} chmod 644 #{Conf.dir}#{hash}#{ext}"
 
-  furl = "#{@@conf['url']}#{hash}#{ext}"
+  furl = "#{Conf.url}#{hash}#{ext}"
   puts " => #{furl}"
   system_run "echo '#{furl}' | pbcopy"
   system_run "open '#{furl}'"
