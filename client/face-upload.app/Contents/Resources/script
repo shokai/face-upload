@@ -4,30 +4,32 @@ require 'digest/md5'
 
 @@conf = YAML::load open(File.dirname(__FILE__)+'/config.yml').read
 
+def system_run(cmd)
+  puts cmd
+  system cmd
+end
+
 def upload(fname)
   return unless File.exists? fname
 
   ext = fname.split(/\//).last =~ /^(.*)(\.\w+)$/ ? $2 : ''
   hash = Digest::MD5.hexdigest open(fname).read
 
-  puts cmd = "scp '#{fname}' #{@@conf['ssh']}:#{@@conf['dir']}#{hash}#{ext}"
-  system cmd
-  puts cmd = "ssh #{@@conf['ssh']} chmod 644 #{@@conf['dir']}#{hash}#{ext}"
-  system cmd
+  system_run "ssh #{@@conf['ssh']} mkdir -p  #{@@conf['dir']}"
+  system_run "scp '#{fname}' #{@@conf['ssh']}:#{@@conf['dir']}#{hash}#{ext}"
+  system_run "ssh #{@@conf['ssh']} chmod 644 #{@@conf['dir']}#{hash}#{ext}"
 
   furl = "#{@@conf['url']}#{hash}#{ext}"
   puts " => #{furl}"
-  system "echo '#{furl}' | pbcopy"
-  system "open '#{furl}'"
+  system_run "echo '#{furl}' | pbcopy"
+  system_run "open '#{furl}'"
 end
 
 def capture
   fname = "/tmp/face-upload-#{Time.now.to_i}_#{Time.now.usec}.png"
-  puts cmd = "screencapture -i #{fname}"
-  system cmd
-  return nil unless File.exists? fname
-  puts cmd = "sips -d profile --deleteColorManagementProperties '#{fname}'"
-  system cmd
+  system_run "screencapture -i #{fname}"
+  return unless File.exists? fname
+  system_run "sips -d profile --deleteColorManagementProperties '#{fname}'"
   return fname
 end
 
