@@ -32,11 +32,19 @@ def upload(fname)
 end
 
 def capture
-  fname = "/tmp/face-upload-#{Time.now.to_i}_#{Time.now.usec}.png"
-  system_run "screencapture -i #{fname}"
-  return unless File.exists? fname
-  system_run "sips -d profile --deleteColorManagementProperties '#{fname}'"
-  return fname
+  fname_png = "/tmp/face-upload-#{Time.now.to_i}_#{Time.now.usec}.png"
+  fname_jpg = "/tmp/face-upload-#{Time.now.to_i}_#{Time.now.usec}.jpg"
+  system_run "screencapture -i #{fname_png}"
+  return unless File.exists? fname_png
+  system_run "sips -d profile --deleteColorManagementProperties '#{fname_png}'"
+  system_run "sips -s format jpeg #{fname_png} --out #{fname_jpg}"
+  if File.size(fname_png) > File.size(fname_jpg)
+    File.delete fname_png
+    return fname_jpg
+  else
+    File.delete fname_jpg
+    return fname_png
+  end
 end
 
 if ARGV.empty?
